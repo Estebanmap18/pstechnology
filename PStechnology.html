@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PS Technology - Domótica Agropecuaria</title>
+    <style>
+        :root {
+            --color-turquesa: #00c8d7;
+            --color-azul-oscuro: #1a3a4a;
+            --color-rojo: #e63946;
+            --color-naranja: #ff7f50;
+            --color-blanco: #ffffff;
+            --color-gris-claro: #f8f9fa;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--color-gris-claro);
+            color: var(--color-azul-oscuro);
+        }
+
+        header {
+            background-color: var(--color-blanco);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 60px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+
+        .nav-links li {
+            margin-left: 30px;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--color-azul-oscuro);
+            font-weight: 600;
+            font-size: 16px;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--color-turquesa);
+        }
+
+        .btn-contacto {
+            background: linear-gradient(to right, var(--color-turquesa), var(--color-naranja));
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 30px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .btn-contacto:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        main {
+            margin-top: 90px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .hero {
+            background: linear-gradient(135deg, var(--color-azul-oscuro), var(--color-turquesa));
+            color: white;
+            text-align: center;
+            padding: 120px 0;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 800px;
+            margin: 0 auto 30px;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+            position: relative;
+        }
+
+        .section-title h2 {
+            font-size: 36px;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 70%;
+            height: 4px;
+            background: linear-gradient(to right, var(--color-turquesa), var(--color-naranja));
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        .about-content {
+            display: flex;
+            align-items: center;
+            gap: 50px;
+        }
+
+        .about-text {
+            flex: 1;
+        }
+
+        .about-image {
+            flex: 1;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .about-image img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-image {
+            height: 200px;
+            overflow: hidden;
+        }
+
+        .product-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+
+        .product-card:hover .product-image img {
+            transform: scale(1.1);
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-info h3 {
+            margin-bottom: 10px;
+            color: var(--color-azul-oscuro);
+        }
+
+        .product-info p {
+            color: #666;
+            margin-bottom: 15px;
+        }
+
+        .video-container {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+            max-width: 100%;
+            margin: 40px auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        .contact-form {
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--color-azul-oscuro);
+        }
+
+        .form-group input, .form-group textarea {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-group input:focus, .form-group textarea:focus {
+            border-color: var(--color-turquesa);
+            outline: none;
+        }
+
+        .error-message {
+            color: var(--color-rojo);
+            font-size: 14px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .submit-btn {
+            background: linear-gradient(to right, var(--color-turquesa), var(--color-naranja));
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            display: block;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        footer {
+            background-color: var(--color-azul-oscuro);
+            color: white;
+            padding: 50px 0 20px;
+        }
+
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-logo img {
+            height: 60px;
+            margin-bottom: 15px;
+        }
+
+        .footer-links {
+            flex: 1;
+            min-width: 250px;
+        }
+
+        .footer-links h3 {
+            margin-bottom: 20px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .footer-links h3::after {
+            content: '';
+            display: block;
+            width: 50px;
+            height: 3px;
+            background: linear-gradient(to right, var(--color-turquesa), var(--color-naranja));
+            margin-top: 10px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #ddd;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--color-turquesa);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 14px;
+            color: #aaa;
+        }
+
+        .success-message {
+            display: none;
+            background-color: #d4edda;
+            color: #155724;
+            padding: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        .loading-spinner {
+            border: 4px solid rgba(0, 0, 0, 0.1);
+            border-radius: 50%;
+            border-top: 4px solid var(--color-turquesa);
+            width: 30px;
+            height: 30px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                padding: 15px 0;
+            }
+
+            .nav-links {
+                margin-top: 15px;
+                justify-content: center;
+            }
+
+            .nav-links li {
+                margin: 0 10px;
+            }
+
+            .about-content {
+                flex-direction: column;
+            }
+
+            .hero h1 {
+                font-size: 36px;
+            }
+
+            .hero p {
+                font-size: 18px;
+            }
+
+            section {
+                padding: 60px 0;
+            }
+        }
+
+        iframe#hidden-iframe {
+            display: none;
+            width: 0;
+            height: 0;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav class="navbar">
+                <div class="logo">
+                    <img src="https://i.ibb.co/60bjt700/Logo-PSTECHNOLOGY.jpg" alt="PS Technology Logo">
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#inicio">Inicio</a></li>
+                    <li><a href="#productos">Productos</a></li>
+                    <li><a href="#nosotros">Nosotros</a></li>
+                    <li><a href="#contacto" class="btn-contacto">Contáctanos</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section id="inicio" class="hero">
+            <div class="container">
+                <h1>Soluciones Tecnológicas para el Sector Agropecuario</h1>
+                <p>En PS Technology transformamos la agricultura tradicional con sistemas de domótica avanzados que optimizan recursos y maximizan la productividad.</p>
+                <a href="#contacto" class="btn-contacto">Solicita una consulta</a>
+            </div>
+        </section>
+
+        <section id="about-us">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nuestra Empresa</h2>
+                </div>
+                <div class="about-content">
+                    <div class="about-text">
+                        <p>PS Technology es una empresa líder en el desarrollo e implementación de soluciones tecnológicas para el sector agropecuario. Nos especializamos en sistemas de domótica que permiten automatizar y controlar de manera eficiente los procesos productivos en granjas, invernaderos y cultivos.</p>
+                        <p>Nuestro equipo de ingenieros y técnicos altamente capacitados trabaja constantemente en la innovación y mejora de nuestros productos, adaptándolos a las necesidades específicas de cada cliente.</p>
+                        <p>Contamos con más de 5 años de experiencia en el mercado, brindando soluciones que combinan tecnología de punta con un profundo conocimiento del sector agropecuario.</p>
+                    </div>
+                    <div class="about-image">
+                        <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Domotica+Agropecuaria" alt="Domótica Agropecuaria">
+                    </div>
+                </div>
+
+                <div class="video-container">
+                    <iframe src="https://www.youtube.com/embed/c5hxUZZFUdY" title="Video de Domótica Agropecuaria" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                </div>
+            </div>
+        </section>
+
+        <section id="productos" style="background-color: var(--color-gris-claro);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nuestros Productos</h2>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Sistema+de+Riego" alt="Sistema de Riego Automatizado">
+                        </div>
+                        <div class="product-info">
+                            <h3>Sistema de Riego Automatizado</h3>
+                            <p>Control inteligente del riego basado en sensores de humedad del suelo y condiciones climáticas para optimizar el uso del agua.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Control+Climatico" alt="Control Climático para Invernaderos">
+                        </div>
+                        <div class="product-info">
+                            <h3>Control Climático para Invernaderos</h3>
+                            <p>Monitoreo y regulación automática de temperatura, humedad y ventilación para crear condiciones óptimas de crecimiento.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Monitoreo+Ganado" alt="Sistema de Monitoreo de Ganado">
+                        </div>
+                        <div class="product-info">
+                            <h3>Sistema de Monitoreo de Ganado</h3>
+                            <p>Seguimiento en tiempo real de la ubicación y estado de salud del ganado mediante dispositivos IoT y sensores avanzados.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Alimentacion+Automatica" alt="Sistemas de Alimentación Automática">
+                        </div>
+                        <div class="product-info">
+                            <h3>Sistemas de Alimentación Automática</h3>
+                            <p>Dispensadores programables que suministran alimento en cantidades y horarios precisos para optimizar la nutrición animal.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Drones+Agricolas" alt="Drones para Agricultura de Precisión">
+                        </div>
+                        <div class="product-info">
+                            <h3>Drones para Agricultura de Precisión</h3>
+                            <p>Monitoreo aéreo de cultivos con cámaras multiespectrales para detectar problemas de plagas, enfermedades o deficiencias nutricionales.</p>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="product-image">
+                            <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Estacion+Meteorologica" alt="Estaciones Meteorológicas Inteligentes">
+                        </div>
+                        <div class="product-info">
+                            <h3>Estaciones Meteorológicas Inteligentes</h3>
+                            <p>Monitoreo preciso de condiciones climáticas locales para tomar decisiones informadas sobre la gestión de cultivos.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="nosotros">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Nosotros</h2>
+                </div>
+                <div class="about-content">
+                    <div class="about-image">
+                        <img src="https://placehold.co/600x400/1a3a4a/00c8d7?text=Equipo+PS+Technology" alt="Equipo PS Technology">
+                    </div>
+                    <div class="about-text">
+                        <h3>Nuestra Misión</h3>
+                        <p>Transformar el sector agropecuario mediante la implementación de tecnologías innovadoras que mejoren la eficiencia, sostenibilidad y rentabilidad de las operaciones agrícolas y ganaderas.</p>
+
+                        <h3>Nuestra Visión</h3>
+                        <p>Ser líderes en el desarrollo de soluciones tecnológicas para el sector agropecuario, contribuyendo a la modernización del campo y a la seguridad alimentaria global.</p>
+
+                        <h3>Nuestros Valores</h3>
+                        <p>Innovación, compromiso con el cliente, sostenibilidad ambiental, excelencia técnica y responsabilidad social son los pilares que guían nuestro trabajo diario.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contacto" style="background-color: var(--color-gris-claro);">
+            <div class="container">
+                <div class="section-title">
+                    <h2>Contáctanos</h2>
+                </div>
+                <div class="contact-form">
+                    <div class="success-message" id="success-message">
+                        ¡Gracias por contactarnos! Tu mensaje ha sido enviado correctamente. Nos pondremos en contacto contigo pronto.
+                    </div>
+                    <div class="loading" id="loading">
+                        <div class="loading-spinner"></div>
+                        <p>Enviando mensaje...</p>
+                    </div>
+                    <form id="formulario-contacto" action="https://script.google.com/macros/s/AKfycbyI7Qo0w75SXOANROxBFIknZA-n3FMS2nONSzcdAoJrSpuCqOS3SkYDli-F_tIjjT6nag/exec" method="POST" target="hidden-iframe">
+                        <div class="form-group">
+                            <label for="nombre">Nombre Completo</label>
+                            <input type="text" id="nombre" name="nombre" placeholder="Ingresa tu nombre completo" required>
+                            <div class="error-message" id="error-nombre">Por favor ingresa un nombre válido (solo letras)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="telefono">Número de Teléfono</label>
+                            <input type="text" id="telefono" name="telefono" placeholder="Ingresa tu número de teléfono" required>
+                            <div class="error-message" id="error-telefono">Por favor ingresa un número de teléfono válido (solo números)</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" name="email" placeholder="Ingresa tu correo electrónico" required>
+                            <div class="error-message" id="error-email">Por favor ingresa un correo electrónico válido</div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" name="mensaje" rows="5" placeholder="¿En qué podemos ayudarte?"></textarea>
+                        </div>
+
+                        <button type="submit" class="submit-btn">Enviar Mensaje</button>
+                    </form>
+                    <iframe name="hidden-iframe" id="hidden-iframe"></iframe>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-logo">
+                    <img src="https://placehold.co/200x80/1a3a4a/00c8d7?text=PS+TECHNOLOGY" alt="PS Technology Logo">
+                    <p>Transformando el campo con tecnología de vanguardia.</p>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Enlaces Rápidos</h3>
+                    <ul>
+                        <li><a href="#inicio">Inicio</a></li>
+                        <li><a href="#productos">Productos</a></li>
+                        <li><a href="#nosotros">Nosotros</a></li>
+                        <li><a href="#contacto">Contacto</a></li>
+                    </ul>
+                </div>
+
+                <div class="footer-links">
+                    <h3>Contacto</h3>
+                    <ul>
+                        <li>Dirección: BOGOTA D.C UCOMPENSAR </li>
+                        <li>Teléfono: 3186800187</li>
+                        <li>Email: shoptrendiverse@gmail.com</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>&copy; 2025 PS Technology. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Validación del formulario
+        document.getElementById('formulario-contacto').addEventListener('submit', function(event) {
+            let isValid = true;
+
+            // Validar nombre (solo letras y espacios)
+            const nombre = document.getElementById('nombre').value;
+            const nombreRegex = /^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/;
+            if (!nombreRegex.test(nombre)) {
+                document.getElementById('error-nombre').style.display = 'block';
+                isValid = false;
+                event.preventDefault();
+            } else {
+                document.getElementById('error-nombre').style.display = 'none';
+            }
+
+            // Validar teléfono (solo números)
+            const telefono = document.getElementById('telefono').value;
+            const telefonoRegex = /^[0-9]+$/;
+            if (!telefonoRegex.test(telefono)) {
+                document.getElementById('error-telefono').style.display = 'block';
+                isValid = false;
+                event.preventDefault();
+            } else {
+                document.getElementById('error-telefono').style.display = 'none';
+            }
+
+            // Validar email
+            const email = document.getElementById('email').value;
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                document.getElementById('error-email').style.display = 'block';
+                isValid = false;
+                event.preventDefault();
+            } else {
+                document.getElementById('error-email').style.display = 'none';
+            }
+
+            // Si todo es válido, mostrar el indicador de carga
+            if (isValid) {
+                document.getElementById('loading').style.display = 'block';
+
+                // Ocultar el formulario mientras se procesa
+                this.style.opacity = '0.5';
+                this.style.pointerEvents = 'none';
+            }
+        });
+
+        // Manejar la respuesta del iframe oculto
+        window.addEventListener('load', function() {
+            document.getElementById('hidden-iframe').onload = function() {
+                // Solo ejecutar si el formulario ha sido enviado (loading está visible)
+                if (document.getElementById('loading').style.display === 'block') {
+                    // Ocultar el indicador de carga
+                    document.getElementById('loading').style.display = 'none';
+
+                    // Mostrar mensaje de éxito
+                    document.getElementById('success-message').style.display = 'block';
+
+                    // Restablecer el formulario
+                    document.getElementById('formulario-contacto').reset();
+                    document.getElementById('formulario-contacto').style.opacity = '1';
+                    document.getElementById('formulario-contacto').style.pointerEvents = 'auto';
+
+                    // Ocultar el mensaje de éxito después de 5 segundos
+                    setTimeout(function() {
+                        document.getElementById('success-message').style.display = 'none';
+                    }, 5000);
+                }
+            };
+        });
+
+        // Smooth scroll para los enlaces de navegación
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+    </script>
+</body>
+</html>
